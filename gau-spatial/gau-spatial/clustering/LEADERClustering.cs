@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using gau_math.data;
+using Functions;
 
 namespace Clustering
 {
@@ -12,9 +14,9 @@ namespace Clustering
 
         private List<Cluster> clusters = new List<Cluster>();
 
-        private List<EDVector3D> leaders = new List<EDVector3D>();
+        private List<Vector> leaders = new List<Vector>();
 
-        public LEADERClustering(List<EDVector3D> pos)
+        public LEADERClustering(List<Vector> pos)
         {
             //var sorted_pos = pos.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
             var sorted_pos = pos.OrderBy(p => p.Y).ThenBy(p => p.X).ToList();
@@ -31,7 +33,7 @@ namespace Clustering
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Cluster[] clusterData(List<EDVector3D> pos)
+        public Cluster[] clusterData(List<Vector> pos)
         {
             clusters.Clear();
             Cluster start_cluster = new Cluster(pos[0]);
@@ -48,7 +50,7 @@ namespace Clustering
                 var min_dist_leader_index = 0;
                 for (int index = 0; index < leaders.Count; index++)
                 {
-                    var leader_distance = EDMathLibrary.getEuclidDistance2D(leaders[index], datapoint);
+                    var leader_distance = Distfunctions.getEuclidDistance2D(leaders[index], datapoint);
                     if (index == 0) {
                         min_dist = leader_distance;
                         continue;

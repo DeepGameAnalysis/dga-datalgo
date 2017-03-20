@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CSGO_Analytics.src.math;
+using gau_math.data;
 using System.Collections;
 
 /// <summary>
@@ -13,30 +13,30 @@ namespace Clustering
 {
     public class Cluster
     {
-        public List<EDVector3D> data;
+        public List<Vector> data;
 
-        public EDVector3D centroid;
+        public Vector centroid;
 
 
         public Cluster()
         {
-            this.data = new List<EDVector3D>();
+            this.data = new List<Vector>();
 
         }
 
-        public Cluster(EDVector3D[] data)
+        public Cluster(Vector[] data)
         {
             this.data = data.ToList();
         }
 
-        public Cluster(EDVector3D datapoint)
+        public Cluster(Vector datapoint)
         {
-            this.data = new List<EDVector3D>();
+            this.data = new List<Vector>();
             assignToCluster(datapoint);
         }
 
 
-        internal void assignToCluster(EDVector3D p)
+        internal void assignToCluster(Vector p)
         {
             data.Add(p);
         }
@@ -53,7 +53,7 @@ namespace Clustering
         }
 
 
-        public void AddPosition(EDVector3D p)
+        public void AddPosition(Vector p)
         {
             data.Add(p);
         }

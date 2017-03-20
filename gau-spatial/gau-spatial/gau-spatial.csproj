@@ -47,14 +47,20 @@
     <Compile Include="clustering\DBSCANClustering.cs" />
     <Compile Include="clustering\KMeanClustering.cs" />
     <Compile Include="clustering\LEADERClustering.cs" />
+    <Compile Include="distfunctions\Distfunctions.cs" />
+    <Compile Include="distfunctions\EDMathLibrary.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="distfunctions\" />
+    <ProjectReference Include="..\..\..\gau-math\gau-math\gau-math\gau-math.csproj">
+      <Project>{8bcee5d8-8203-46c7-8b08-a50353979029}</Project>
+      <Name>gau-math</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
