@@ -1,3 +1,3 @@
-# GAU- Spatial Analysis
+# GAU - Spatial Analysis
 
-This package contains every construct, algorithm and datastructure used for spaptial (and temporal) analysis of a game.
+This package contains every construct, algorithm and datastructure used for spatial (and temporal) analysis of a game.
