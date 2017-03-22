@@ -1,4 +1,4 @@
   # TO-DOs:
   
   # Code:
-  - Generic Functions and classes
+  - Generic Functions and classes (clustering and distancefunctions)
