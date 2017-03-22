@@ -5,45 +5,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Collections;
+using System.Reflection;
 
 namespace Clustering
 {
    
     /// <summary>
-    /// Code by : https://visualstudiomagazine.com/articles/2013/12/01/k-means-data-clustering-using-c.aspx?admgarea=features
     /// K-means clustering('Lloyd's algorithm')
     /// </summary>
     /// 
-    public class KMeanClustering
+    public class KMeanClustering<T>  where T : IClusterable, new()
     {
 
-        public static Cluster[] createPositionClusters(List<EDVector3D> ps, int numClusters, bool isValueData)
+        public static Cluster<T>[] createPositionClusters(List<T> ps, int numClusters, bool isValueData)
         {
             double[][] posdata = new double[ps.Count()][];
             int data_ptr = 0;
             foreach (var p in ps)
             {
-                posdata[data_ptr] = p.getAsDoubleArray2D();
+                posdata[data_ptr] = p.getAsArray<T>();
                 data_ptr++;
             }
             int[] clusters_data = Cluster(posdata, numClusters);
 
-            Cluster[] clusters = new Cluster[numClusters];
+            Cluster<T>[] clusters = new Cluster<T>[numClusters];
             for (int i = 0; i < clusters.Length; i++)
             {
-                clusters[i] = new Cluster();
+                clusters[i] = new Cluster<T>();
             }
 
             for (int tupleid = 0; tupleid < clusters_data.Length; tupleid++)
             {
                 var clusterid = clusters_data[tupleid];
-                clusters[clusterid].AddPosition(new EDVector3D(posdata[tupleid]));
+                var t = new T();
+                t.AddData(posdata[tupleid]);
+                clusters[clusterid].assignToCluster(t);
             }
 
             return clusters;
         }
 
         /// <summary>
+        /// Code by : https://visualstudiomagazine.com/articles/2013/12/01/k-means-data-clustering-using-c.aspx?admgarea=features
         /// k-means clustering
         /// index of return is tuple ID, cell is cluster ID
         /// ex: [2 1 0 0 2 2] means tuple 0 is cluster 2, tuple 1 is cluster 1, tuple 2 is cluster 0, tuple 3 is cluster 0, etc.

@@ -3,45 +3,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using gau_math.data;
+using GAUMath.Data;
 using System.Collections;
+using MathNet.Spatial.Euclidean;
 
 /// <summary>
 /// TODO: make generic some time
 /// </summary>
 namespace Clustering
 {
-    public class Cluster
+    public class Cluster<T>
     {
-        public List<Vector> data;
+        /// <summary>
+        /// Data points assigned to this cluster
+        /// </summary>
+        public List<T> data;
 
-        public Vector centroid;
+        /// <summary>
+        /// Centroid of this cluster 
+        /// </summary>
+        public T centroid;
 
-
+        /// <summary>
+        /// Create an empty cluster - add datapoints
+        /// </summary>
         public Cluster()
         {
-            this.data = new List<Vector>();
-
+            this.data = new List<T>();
         }
 
-        public Cluster(Vector[] data)
+        /// <summary>
+        /// Create a cluster with three-dimensional data
+        /// </summary>
+        /// <param name="data"></param>
+        public Cluster(T[] data)
         {
             this.data = data.ToList();
         }
 
-        public Cluster(Vector datapoint)
+        /// <summary>
+        /// Create cluster with one starting datapoint
+        /// </summary>
+        /// <param name="datapoint"></param>
+        public Cluster(T datapoint)
         {
-            this.data = new List<Vector>();
+            this.data = new List<T>();
             assignToCluster(datapoint);
         }
 
-
-        internal void assignToCluster(Vector p)
+        /// <summary>
+        /// Add a datapoint to the cluster
+        /// </summary>
+        /// <param name="p"></param>
+        internal void assignToCluster(T p)
         {
             data.Add(p);
         }
 
-        public EDRect getBoundings()
+        public Rectangle getBoundings()
         {
             var min_x = data.Min(point => point.X);
             var min_y = data.Min(point => point.Y);
@@ -49,13 +68,7 @@ namespace Clustering
             var max_y = data.Max(point => point.Y);
             var dx = max_x - min_x;
             var dy = max_y - min_y;
-            return new EDRect { X = min_x, Y = max_y, Width = dx, Height = dy };
-        }
-
-
-        public void AddPosition(Vector p)
-        {
-            data.Add(p);
+            return new Rectangle { X = min_x, Y = max_y, Width = dx, Height = dy };
         }
     }
 }

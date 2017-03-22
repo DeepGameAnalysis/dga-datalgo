@@ -12,20 +12,18 @@ namespace Clustering
     /// <summary>
     /// Main Codeparts from http://codereview.stackexchange.com/questions/108965/implementing-a-fast-dbscan-in-c
     /// </summary>
-    public class DBSCANClustering
+    public class DBSCANClustering<T> where T : IClusterable
     {
-        private readonly Func<EDVector3D, EDVector3D, double> _metricFunc;
 
-        public DBSCANClustering(Func<EDVector3D, EDVector3D, double> metricFunc)
+        public DBSCANClustering()
         {
-            _metricFunc = metricFunc;
         }
 
-        public HashSet<EDVector3D[]> ComputeClusterDbscan(EDVector3D[] allPoints, double epsilon, int minPts)
+        public HashSet<T[]> ComputeClusterDbscan(T[] allPoints, double epsilon, int minPts)
         {
-            var allPointsDbscan = allPoints.Select(x => new DbscanPoint(x)).ToArray();
+            var allPointsDbscan = allPoints.Select(x => new DBSCANPoint<T>(x)).ToArray();
 
-            var tree = new KdTree<double, DbscanPoint>(2, new DoubleMath());
+            var tree = new KdTree<double, DBSCANPoint<T>>(2, new DoubleMath());
             for (var i = 0; i < allPointsDbscan.Length; ++i)
             {
                 tree.Add(new double[] { allPointsDbscan[i].ClusterPoint.X, allPointsDbscan[i].ClusterPoint.Y }, allPointsDbscan[i]);
@@ -39,7 +37,7 @@ namespace Clustering
                     continue;
                 p.IsVisited = true;
 
-                DbscanPoint[] neighborPts = RegionQuery(tree, p.ClusterPoint, epsilon);
+                DBSCANPoint<T>[] neighborPts = RegionQuery(tree, p.ClusterPoint, epsilon);
                 if (neighborPts.Length < minPts)
                     p.ClusterId = (int)ClusterIDs.Noise;
                 else
@@ -48,7 +46,7 @@ namespace Clustering
                     ExpandCluster(tree, p, neighborPts, C, epsilon, minPts);
                 }
             }
-            return new HashSet<EDVector3D[]>(
+            return new HashSet<T[]>(
                 allPointsDbscan
                     .Where(x => x.ClusterId > 0)
                     .GroupBy(x => x.ClusterId)
@@ -56,11 +54,11 @@ namespace Clustering
                 );
         }
 
-        private static void ExpandCluster(KdTree<double, DbscanPoint> tree, DbscanPoint p, DbscanPoint[] neighborPts, int c, double epsilon, int minPts)
+        private static void ExpandCluster(KdTree<double, DBSCANPoint<T>> tree, DBSCANPoint<T> p, DBSCANPoint<T>[] neighborPts, int c, double epsilon, int minPts)
         {
             p.ClusterId = c;
 
-            var queue = new Queue<DbscanPoint>(neighborPts);
+            var queue = new Queue<DBSCANPoint<T>>(neighborPts);
             while (queue.Count > 0)
             {
                 var point = queue.Dequeue();
@@ -86,31 +84,27 @@ namespace Clustering
             }
         }
 
-        private static DbscanPoint[] RegionQuery(KdTree<double, DbscanPoint> tree, EDVector3D p, double epsilon)
+        private static DBSCANPoint<T>[] RegionQuery(KdTree<double, DBSCANPoint<T>> tree, T p, double epsilon)
         {
-            var neighbors = new List<DbscanPoint>();
-            var e = tree.RadialSearch(p.getAsDoubleArray2D(), epsilon, 10);
+            var neighbors = new List<DBSCANPoint<T>>();
+            var e = tree.RadialSearch(p.getAsArray<T>(), epsilon, 10);
             foreach(var entry in e)
-            {
                 neighbors.Add(entry.Value);
-            }
-            /*while (e.MoveNext())
-            {
-                neighbors.Add(e.GetEnumerator().Current);
-            }*/
-
+            
             return neighbors.ToArray();
         }
     }
 
-    //EDVector3D container for Dbscan clustering
-    public class DbscanPoint
+    /// <summary>
+    /// Container for DBSCAN clustering
+    /// </summary>
+    public class DBSCANPoint<T>
     {
         public bool IsVisited;
-        public EDVector3D ClusterPoint;
+        public T ClusterPoint;
         public int ClusterId;
 
-        public DbscanPoint(EDVector3D point)
+        public DBSCANPoint(T point)
         {
             ClusterPoint = point;
             IsVisited = false;
@@ -118,6 +112,9 @@ namespace Clustering
         }
     }
 
+    /// <summary>
+    /// Identify a cluster
+    /// </summary>
     public enum ClusterIDs
     {
         Unclassified = 0,
