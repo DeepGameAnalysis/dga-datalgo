@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GAUMath.Data;
 using System.Collections;
 using MathNet.Spatial.Euclidean;
 
 /// <summary>
 /// TODO: make generic some time
 /// </summary>
-namespace Clustering
+namespace Clustering 
 {
     public class Cluster<T>
     {
@@ -60,15 +59,5 @@ namespace Clustering
             data.Add(p);
         }
 
-        public Rectangle getBoundings()
-        {
-            var min_x = data.Min(point => point.X);
-            var min_y = data.Min(point => point.Y);
-            var max_x = data.Max(point => point.X);
-            var max_y = data.Max(point => point.Y);
-            var dx = max_x - min_x;
-            var dy = max_y - min_y;
-            return new Rectangle { X = min_x, Y = max_y, Width = dx, Height = dy };
-        }
     }
 }

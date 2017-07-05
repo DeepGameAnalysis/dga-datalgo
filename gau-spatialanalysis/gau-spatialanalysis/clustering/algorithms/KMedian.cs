@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Trajectory
+namespace gau_spatial.clustering.algorithms
 {
-    public interface IEntity
+    class KMedian
     {
     }
 }

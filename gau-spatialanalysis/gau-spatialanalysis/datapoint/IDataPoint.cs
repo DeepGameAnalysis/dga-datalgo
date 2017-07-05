@@ -4,12 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace gau_spatial
+namespace gau_spatial.datapoint
 {
-    class Program
+    interface IDataPoint
     {
-        static void Main(string[] args)
-        {
-        }
     }
 }

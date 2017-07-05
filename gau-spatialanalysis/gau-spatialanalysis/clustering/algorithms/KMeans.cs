@@ -14,21 +14,29 @@ namespace Clustering
     /// K-means clustering('Lloyd's algorithm')
     /// </summary>
     /// 
-    public class KMeanClustering<T>  where T : IClusterable, new()
+    public class KMeans<T>  where T : IClusterable<double, T>, new()
     {
-
-        public static Cluster<T>[] createPositionClusters(List<T> ps, int numClusters, bool isValueData)
+        /// <summary>
+        /// Create clusters with K-Means
+        /// </summary>
+        /// <param name="inputdata"></param>
+        /// <param name="clusterNumber"></param>
+        /// <param name="isValueData"></param>
+        /// <returns></returns>
+        public static Cluster<T>[] createClusters(List<T> inputdata, int clusterNumber)
         {
-            double[][] posdata = new double[ps.Count()][];
+            double[][] datapoints = new double[inputdata.Count()][];
             int data_ptr = 0;
-            foreach (var p in ps)
+            foreach (var data in inputdata)
             {
-                posdata[data_ptr] = p.getAsArray<T>();
+                datapoints[data_ptr] = data.GetDataAsArray();
                 data_ptr++;
             }
-            int[] clusters_data = Cluster(posdata, numClusters);
 
-            Cluster<T>[] clusters = new Cluster<T>[numClusters];
+            // IDs of the clusterdata
+            int[] clusters_data = Cluster(datapoints, clusterNumber);
+
+            Cluster<T>[] clusters = new Cluster<T>[clusterNumber];
             for (int i = 0; i < clusters.Length; i++)
             {
                 clusters[i] = new Cluster<T>();
@@ -37,8 +45,8 @@ namespace Clustering
             for (int tupleid = 0; tupleid < clusters_data.Length; tupleid++)
             {
                 var clusterid = clusters_data[tupleid];
-                var t = new T();
-                t.AddData(posdata[tupleid]);
+                var t = new T(); //Create the object and use a self defined addData-Method to add the data to the object
+                t.AddData(datapoints[tupleid]);
                 clusters[clusterid].assignToCluster(t);
             }
 
@@ -55,7 +63,7 @@ namespace Clustering
         /// <param name="rawData"></param>
         /// <param name="numClusters"></param>
         /// <returns></returns>
-        public static int[] Cluster(double[][] rawData, int numClusters)
+        private static int[] Cluster(double[][] rawData, int numClusters)
         {
 
             double[][] data = Normalized(rawData); // so large values don't dominate

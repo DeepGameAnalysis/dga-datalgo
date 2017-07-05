@@ -6,52 +6,59 @@ using System.Threading.Tasks;
 
 namespace Clustering
 {
-    class LEADERClustering<T>  where T : IClusterable, IOrderer
+    public class LEADER<T>  where T : IClusterable<double, T>
     {
+        /// <summary>
+        /// Delta. Determines when an object belongs to a cluster or creates a new one if distance between data and leader is greater delta
+        /// </summary>
         public float delta { get; set; }
-
-        private List<Cluster<T>> clusters = new List<Cluster<T>>();
-
-        private List<T> leaders = new List<T>();
 
         /// <summary>
         /// Cluster the given data with LEADER. Pass a function to order the data as u wish
         /// </summary>
-        /// <param name="pos"></param>
-        public LEADERClustering(T[] pos, Func<T[], T[]> order)
+        /// <param name="datapoints"></param>
+        public LEADER(float delta, T[] datapoints, Func<T[], T[]> order)
         {
-            var sorted_pos = order(pos);
-            clusterData(sorted_pos);
+            this.datapoints = datapoints;
+            this.delta = delta;
+            this.order = order;
         }
 
-        public LEADERClustering(float delta)
-        {
-            this.delta = delta;
-        }
+        //
+        // Helpers. Throw away if possible
+        //
+        private List<Cluster<T>> clusters = new List<Cluster<T>>();
+
+        private List<T> leaders = new List<T>();
+
+        private Func<T[], T[]> order;
+
+        private T[] datapoints;
 
         /// <summary>
-        /// Probleme: Reihenfolge der Punkte
+        /// 
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Cluster<T>[] clusterData(T[] pos)
+        public Cluster<T>[] createClusters()
         {
             clusters.Clear();
-            Cluster<T> start_cluster = new Cluster<T>(pos[0]);
+            datapoints = order(datapoints); //Use the passed order function to ensure the wished execution of LEADER
+            Cluster<T> start_cluster = new Cluster<T>(datapoints[0]);
             int leader_ind = 0;
-            leaders.Add(pos.First());
+            leaders.Add(datapoints.First());
 
             clusters.Add(start_cluster);
 
-            for (int i = 1; i < pos.Length; i++)
+            for (int i = 1; i < datapoints.Length; i++)
             {
-                var datapoint = pos[i];
+                var datapoint = datapoints[i];
 
                 var min_dist = 0.0;
                 var min_dist_leader_index = 0;
                 for (int index = 0; index < leaders.Count; index++)
                 {
-                    var leader_distance = leaders[index].DistanceFunc<T>(datapoint);
+                    var leader_distance = leaders[index].DistanceFunction(datapoint);
                     if (index == 0) {
                         min_dist = leader_distance;
                         continue;
@@ -76,7 +83,9 @@ namespace Clustering
                 }
             }
             leaders.Clear();
-            return clusters.ToArray();
+            var arr = clusters.ToArray();
+            clusters.Clear();
+            return arr;
         }
 
     }
