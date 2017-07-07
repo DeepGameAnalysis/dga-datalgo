@@ -29,27 +29,27 @@ namespace Clustering
         {
             var allPointsDBScan = datapoints.Select(x => new DataPoint<T>(x)).ToArray();
 
-            var tree = new KDTree<double, DataPoint<T>>(2, new DoubleMath());
+            var kdtree = new KDTree<double, DataPoint<T>>(2, new DoubleMath());
             for (var i = 0; i < allPointsDBScan.Length; ++i)
             {
-                tree.Add(allPointsDBScan[i].ClusterPoint.GetDataAsArray(), allPointsDBScan[i]);
+                kdtree.Add(allPointsDBScan[i].clusterPoint.GetDataAsArray(), allPointsDBScan[i]);
             }
 
             var expandcounter = 0;
             for (int i = 0; i < allPointsDBScan.Length; i++)
             {
                 var p = allPointsDBScan[i];
-                if (p.IsVisited)
+                if (p.isVisited)
                     continue;
-                p.IsVisited = true;
+                p.isVisited = true;
 
-                DataPoint<T>[] neighborPts = RegionQuery(tree, p, epsilon);
+                DataPoint<T>[] neighborPts = RegionQuery(kdtree, p, epsilon);
                 if (neighborPts.Length < minPts)
                     p.clusterID = (int)ClusterIDs.Noise;
                 else
                 {
                     expandcounter++;
-                    ExpandCluster(tree, p, neighborPts, expandcounter, epsilon, minPts);
+                    ExpandCluster(kdtree, p, neighborPts, expandcounter, epsilon, minPts);
                 }
             }
             if(removeoutliers)
@@ -57,13 +57,13 @@ namespace Clustering
                     allPointsDBScan
                         .Where(x => x.clusterID > 0)
                         .GroupBy(x => x.clusterID)
-                        .Select(x => x.Select(y => y.ClusterPoint).ToArray())
+                        .Select(x => x.Select(y => y.clusterPoint).ToArray())
                     );
             else
                 return new HashSet<T[]>(
                 allPointsDBScan
                     .GroupBy(x => x.clusterID) //All ClusterIDs
-                    .Select(x => x.Select(y => y.ClusterPoint).ToArray())
+                    .Select(x => x.Select(y => y.clusterPoint).ToArray())
                 );
         }
 
@@ -80,16 +80,16 @@ namespace Clustering
                     point.clusterID = clusterid;
                 }
 
-                if (point.IsVisited)
+                if (point.isVisited)
                 {
                     continue;
                 }
 
-                point.IsVisited = true;
+                point.isVisited = true;
                 var neighbors = RegionQuery(tree, point, epsilon);
                 if (neighbors.Length >= minPts)
                 {
-                    foreach (var neighbor in neighbors.Where(neighbor => !neighbor.IsVisited))
+                    foreach (var neighbor in neighbors.Where(neighbor => !neighbor.isVisited))
                     {
                         queue.Enqueue(neighbor);
                     }
@@ -100,7 +100,7 @@ namespace Clustering
         private static DataPoint<T>[] RegionQuery(KDTree<double, DataPoint<T>> tree, DataPoint<T> p, double epsilon)
         {
             var neighbors = new List<DataPoint<T>>();
-            var e = tree.RadialSearch(p.ClusterPoint.GetDataAsArray(), epsilon, 10);
+            var e = tree.RangeQuery(p.clusterPoint.GetDataAsArray(), epsilon, 10);
             foreach(var entry in e)
                 neighbors.Add(entry.Value);
             

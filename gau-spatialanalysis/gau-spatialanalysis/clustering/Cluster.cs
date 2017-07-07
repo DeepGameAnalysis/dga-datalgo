@@ -19,9 +19,9 @@ namespace Clustering
         public List<T> data;
 
         /// <summary>
-        /// Centroid of this cluster 
+        /// Centroid or Medoid of this cluster 
         /// </summary>
-        public T centroid;
+        public T representative;
 
         /// <summary>
         /// Create an empty cluster - add datapoints

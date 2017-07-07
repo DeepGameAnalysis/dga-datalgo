@@ -5,12 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 using MathNet.Spatial.Euclidean;
 using Trajectories;
+using KDTree;
+using KDTree.Math;
 
 namespace gau_spatial
 {
-    class Player
+    class Player : IMoveable
     {
+        public Vector3D getMovementVector()
+        {
+            throw new NotImplementedException();
+        }
 
+        public Point3D getPosition()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Vector3D getVelocity()
+        {
+            throw new NotImplementedException();
+        }
     }
     class Program
     {
@@ -21,7 +36,7 @@ namespace gau_spatial
             var p2 = new Point3D(2, 2, 9);
             var p3 = new Point3D(22, 2, 19);
             var p4 = new Point3D(22, 12, 9);
-            Trajectory<Player, Point3D> t = new Trajectory<Player, Point3D>(pl, 2131);
+            Trajectory<Player> t = new Trajectory<Player>(pl, 2131);
             t.AddPosition(2133, p);
             t.AddPosition(2132, p2);
             t.AddPosition(2134, p3);
@@ -29,6 +44,9 @@ namespace gau_spatial
             Console.WriteLine(t);
             Console.WriteLine(t.Get(2136));
             Console.ReadLine();
+
+            KDTree<double, Point2D> kd = new KDTree<double, Point2D>(2, new DoubleMath());
+            kd.NearestNeighboursQuery(new double[] { 20, 20 }, 2);
         }
     }
 }

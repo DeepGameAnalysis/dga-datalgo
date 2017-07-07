@@ -4,8 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QuadTree.QTreeRect;
-using QuadTree.QTreePoint;
+using QuadTree.QTreeRectF;
+using QuadTree.QTreePoint2D;
+using MathNet.Spatial.Euclidean;
 
 namespace Clustering
 {
@@ -18,39 +19,43 @@ namespace Clustering
         Noise = -1
     }
 
-    public struct DataPoint<T> : IRectQuadStorable, IPointQuadStorable
+    public struct DataPoint<T> : IRectQuadTreeStorable, IPointQuadTreeStorable
     {
-        public bool IsVisited;
-        public T ClusterPoint;
+        /// <summary>
+        /// Has this datapoint be visited by an algorithm accessing this variable
+        /// </summary>
+        public bool isVisited;
+        public T clusterPoint;
         public int clusterID;
 
-        public DataPoint(T point)
-        {
-            ClusterPoint = point;
-            IsVisited = false;
-            clusterID = (int)ClusterIDs.Unclassified;
-        }
-
-        public T extractData()
-        {
-            return ClusterPoint;
-        }
-
-
-        public Rectangle Rect
-        {
-            get
-            {
-                return new Rectangle();
-            }
-        }
-
-        public Point Point
+        public Rectangle2D Rect
         {
             get
             {
                 throw new NotImplementedException();
             }
         }
+
+        public Point2D Point
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public DataPoint(T point)
+        {
+            clusterPoint = point;
+            isVisited = false;
+            clusterID = (int)ClusterIDs.Unclassified;
+        }
+
+        public T extractData()
+        {
+            return clusterPoint;
+        }
+
+
     }
 }

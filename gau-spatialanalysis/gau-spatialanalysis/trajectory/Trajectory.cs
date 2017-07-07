@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Spatial.Euclidean;
 
 namespace Trajectories
 {
@@ -26,7 +27,7 @@ namespace Trajectories
         /// <summary>
         /// OrderedDictionary holding all the (time,position) pairs of this entities trajectory
         /// </summary>
-        private Hashtable data;
+        private Hashtable trajectorypairs;
 
         /// <summary>
         /// Describes the movement of a entity in one life/round starting at a tickid
@@ -35,7 +36,7 @@ namespace Trajectories
         /// <param name="player"></param>
         public Trajectory(E ent, int starttick)
         {
-            this.data = new Hashtable();
+            this.trajectorypairs = new Hashtable();
             this.start_tick = starttick;
             this.entity = ent;
         }
@@ -45,11 +46,11 @@ namespace Trajectories
         /// </summary>
         /// <param name="tick_id"></param>
         /// <param name="pos"></param>
-        public void AddPosition(int tick_id, E e)
+        public void AddPosition(int tick_id, Point3D e)
         {
             if (tick_id < start_tick) throw new ArgumentException("New tick id cannot be smaller than the starting tick of this entity");
             if (tick_id == start_tick) throw new ArgumentException("There cannot be two positions at the same time registered for this trajectory ");
-            data.Add(tick_id, e);
+            trajectorypairs.Add(tick_id, e);
         }
 
         /// <summary>
@@ -57,18 +58,18 @@ namespace Trajectories
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public E Get(int index)
+        public Point3D Get(int index)
         {
             try
             {
-                return (E)data[index];
+                return (Point3D)trajectorypairs[index];
             }
             catch (Exception e)
             {
                 Console.WriteLine("No suitable entity for this index in this trajectory found");
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
-                return default(E);
+                return default(Point3D);
             }
         }
 
@@ -82,11 +83,11 @@ namespace Trajectories
 
         public override string ToString()
         {
-            foreach (DictionaryEntry de in data)
+            foreach (DictionaryEntry de in trajectorypairs)
             {
                 System.Console.WriteLine(de.Key + ", " + de.Value);
             }
-            return "Trajectory of Player: "+" starting at Tick "+start_tick+":\n Count: "+data.Count;
+            return "Trajectory of Player: "+" starting at Tick "+start_tick+":\n Count: "+trajectorypairs.Count;
         }
     }
 }
