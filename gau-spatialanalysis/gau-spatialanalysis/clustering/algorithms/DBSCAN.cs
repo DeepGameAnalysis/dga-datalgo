@@ -25,7 +25,7 @@ namespace Clustering
             this.minPts = minPts;
         }
 
-        public HashSet<T[]> createClusters(bool removeoutliers)
+        public HashSet<T[]> CreateClusters(bool removeoutliers)
         {
             var allPointsDBScan = datapoints.Select(x => new DataPoint<T>(x)).ToArray();
 

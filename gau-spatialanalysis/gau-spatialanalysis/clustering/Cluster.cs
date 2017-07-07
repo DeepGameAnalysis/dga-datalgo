@@ -19,7 +19,7 @@ namespace Clustering
         public List<T> data;
 
         /// <summary>
-        /// Centroid or Medoid of this cluster 
+        /// Centroid or Medoid of this cluster - can either be part of data or not
         /// </summary>
         public T representative;
 
@@ -58,6 +58,9 @@ namespace Clustering
         {
             data.Add(p);
         }
+
+
+        //It's the point with the smallest average distance to all other points.
 
     }
 }

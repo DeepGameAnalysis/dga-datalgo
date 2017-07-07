@@ -10,9 +10,9 @@ using MathNet.Spatial.Euclidean;
 namespace Trajectories
 {
     /// <summary>
-    /// Trajectory is holding a series of (time , T) tuples of a given object. For example positions or other values
+    /// Trajectory is holding a series of (time , T) tuples of a given object(unit,player,group, throwable object etc). For example positions or other values
     /// </summary>
-    public class Trajectory<E> where E : IMoveable
+    public class Trajectory<E>
     {
         /// <summary>
         /// Start tickid of this trajectory.
@@ -46,7 +46,7 @@ namespace Trajectories
         /// </summary>
         /// <param name="tick_id"></param>
         /// <param name="pos"></param>
-        public void AddPosition(int tick_id, Point3D e)
+        public void AddPosition(int tick_id, Point2D e)
         {
             if (tick_id < start_tick) throw new ArgumentException("New tick id cannot be smaller than the starting tick of this entity");
             if (tick_id == start_tick) throw new ArgumentException("There cannot be two positions at the same time registered for this trajectory ");
@@ -58,25 +58,24 @@ namespace Trajectories
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Point3D Get(int index)
+        public Point2D GetPositionAt(int index)
         {
             try
             {
-                return (Point3D)trajectorypairs[index];
+                return (Point2D)trajectorypairs[index];
             }
             catch (Exception e)
             {
-                Console.WriteLine("No suitable entity for this index in this trajectory found");
                 Console.WriteLine(e.Message);
                 Console.WriteLine(e.StackTrace);
-                return default(Point3D);
+                throw new Exception("TrajectoryPositionException - No suitable position for this index in this trajectory found");
             }
         }
 
         /// <summary>
         /// Compress the trajectory
         /// </summary>
-        private void compress()
+        private void Compress()
         {
 
         }
@@ -84,10 +83,9 @@ namespace Trajectories
         public override string ToString()
         {
             foreach (DictionaryEntry de in trajectorypairs)
-            {
                 System.Console.WriteLine(de.Key + ", " + de.Value);
-            }
-            return "Trajectory of Player: "+" starting at Tick "+start_tick+":\n Count: "+trajectorypairs.Count;
+
+            return "Trajectory of Player: " + " starting at Tick " + start_tick + ":\n Count: " + trajectorypairs.Count;
         }
     }
 }

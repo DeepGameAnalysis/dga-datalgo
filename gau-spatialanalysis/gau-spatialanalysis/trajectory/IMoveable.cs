@@ -8,7 +8,7 @@ using MathNet.Spatial.Euclidean;
 namespace Trajectories
 {
     /// <summary>
-    /// Moveable objects need seperate handling for trajectorie compression or index data structures degrading with dynamic data types
+    /// Moveable objects need seperate handling for trajectory compression or index data structures degrading with dynamic data types
     /// </summary>
     public interface IMoveable
     {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Clustering
 {
@@ -40,7 +38,7 @@ namespace Clustering
         /// </summary>
         /// <param name="pos"></param>
         /// <returns></returns>
-        public Cluster<T>[] createClusters()
+        public Cluster<T>[] CreateClusters()
         {
             clusters.Clear();
             datapoints = order(datapoints); //Use the passed order function to ensure the wished execution of LEADER

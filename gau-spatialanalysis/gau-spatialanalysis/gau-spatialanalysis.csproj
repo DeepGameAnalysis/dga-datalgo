@@ -66,13 +66,12 @@
     <Compile Include="KD-Tree\Math\FloatMath.cs" />
     <Compile Include="KD-Tree\Math\ITypeMath.cs" />
     <Compile Include="KD-Tree\Math\TypeMath.cs" />
-    <Compile Include="KD-Tree\Queries\NearestNeighbourList.cs" />
+    <Compile Include="KD-Tree\NearestNeighbourList.cs" />
     <Compile Include="KD-Tree\Queues\IPriorityQueue.cs" />
     <Compile Include="KD-Tree\KDTree.cs" />
     <Compile Include="KD-Tree\KDTreeHyperRect.cs" />
     <Compile Include="KD-Tree\KDTreeNode.cs" />
     <Compile Include="KD-Tree\Queues\PriorityQueue.cs" />
-    <Compile Include="KD-Tree\Queues\PriorityQueue2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Q-Tree\PointQuadtree\IPointQuadTreeStorable.cs" />
@@ -84,6 +83,8 @@
     <Compile Include="Q-Tree\PointQuadtree\PointQuadTreeNode.cs" />
     <Compile Include="Q-Tree\RectRegionQuadtree\RectQuadTree.cs" />
     <Compile Include="Q-Tree\RectRegionQuadtree\RectQuadTreeNode.cs" />
+    <Compile Include="R-Tree\RStarTree.cs" />
+    <Compile Include="R-Tree\RTreeNode.cs" />
     <Compile Include="trajectory\IMoveable.cs" />
     <Compile Include="trajectory\Trajectory.cs" />
   </ItemGroup>
@@ -97,9 +98,7 @@
       <Name>Spatial</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="R-Tree\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

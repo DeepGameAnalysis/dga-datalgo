@@ -42,7 +42,7 @@ namespace gau_spatial
             t.AddPosition(2134, p3);
             t.AddPosition(2135, p4);
             Console.WriteLine(t);
-            Console.WriteLine(t.Get(2136));
+            Console.WriteLine(t.GetPositionAt(2136));
             Console.ReadLine();
 
             KDTree<double, Point2D> kd = new KDTree<double, Point2D>(2, new DoubleMath());
