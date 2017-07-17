@@ -16,7 +16,7 @@ namespace Clustering
         /// <summary>
         /// Data points assigned to this cluster
         /// </summary>
-        public List<T> data;
+        public List<T> ClusterData;
 
         /// <summary>
         /// Centroid or Medoid of this cluster - can either be part of data or not
@@ -28,7 +28,7 @@ namespace Clustering
         /// </summary>
         public Cluster()
         {
-            this.data = new List<T>();
+            this.ClusterData = new List<T>();
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Clustering
         /// <param name="data"></param>
         public Cluster(T[] data)
         {
-            this.data = data.ToList();
+            this.ClusterData = data.ToList();
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Clustering
         /// <param name="datapoint"></param>
         public Cluster(T datapoint)
         {
-            this.data = new List<T>();
+            this.ClusterData = new List<T>();
             assignToCluster(datapoint);
         }
 
@@ -56,7 +56,7 @@ namespace Clustering
         /// <param name="p"></param>
         internal void assignToCluster(T p)
         {
-            data.Add(p);
+            ClusterData.Add(p);
         }
 
 

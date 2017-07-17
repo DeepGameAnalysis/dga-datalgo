@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Clustering
 {
-    public class OPTICS<T> where T : IClusterable<double, T>
+    public class OPTICS<T> where T : IClusterable<Double, T>
     {
         private T[] datapoints;
         private double epsilon;

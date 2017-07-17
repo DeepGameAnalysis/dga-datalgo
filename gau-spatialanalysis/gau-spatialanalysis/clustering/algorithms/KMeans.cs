@@ -14,7 +14,7 @@ namespace Clustering
     /// K-means clustering('Lloyd's algorithm')
     /// </summary>
     /// 
-    public class KMeans<T>  where T : IClusterable<double, T>, new()
+    public class KMeans<T>  where T : IClusterable<Double, T>, new()
     {
         /// <summary>
         /// Create clusters with K-Means
@@ -23,13 +23,13 @@ namespace Clustering
         /// <param name="clusterNumber"></param>
         /// <param name="isValueData"></param>
         /// <returns></returns>
-        public static Cluster<T>[] createClusters(List<T> inputdata, int clusterNumber)
+        public static Cluster<T>[] CreateClusters(List<T> inputdata, int clusterNumber)
         {
             double[][] datapoints = new double[inputdata.Count()][];
             int data_ptr = 0;
             foreach (var data in inputdata)
             {
-                datapoints[data_ptr] = data.GetDataAsArray();
+                datapoints[data_ptr] = data.GetPointDataAsArray();
                 data_ptr++;
             }
 
@@ -46,7 +46,7 @@ namespace Clustering
             {
                 var clusterid = clusters_data[tupleid];
                 var t = new T(); //Create the object and use a self defined addData-Method to add the data to the object
-                t.AddData(datapoints[tupleid]);
+                t.AddPointData(datapoints[tupleid]);
                 clusters[clusterid].assignToCluster(t);
             }
 

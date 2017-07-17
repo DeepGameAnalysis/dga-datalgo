@@ -32,6 +32,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\..\gau-encounterdetection\gau-encounterdetection\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
@@ -53,14 +73,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="clustering\algorithms\KMedian.cs" />
-    <Compile Include="clustering\algorithms\OPTICS.cs" />
-    <Compile Include="clustering\Cluster.cs" />
-    <Compile Include="clustering\algorithms\DBSCAN.cs" />
-    <Compile Include="clustering\algorithms\KMeans.cs" />
-    <Compile Include="clustering\algorithms\LEADER.cs" />
-    <Compile Include="datapoint\DataPoint.cs" />
-    <Compile Include="datapoint\IDataPoint.cs" />
+    <Compile Include="Clustering\Algorithms\KMedian.cs" />
+    <Compile Include="Clustering\Algorithms\OPTICS.cs" />
+    <Compile Include="Clustering\Cluster.cs" />
+    <Compile Include="Clustering\Algorithms\DBSCAN.cs" />
+    <Compile Include="Clustering\Algorithms\KMeans.cs" />
+    <Compile Include="Clustering\Algorithms\LEADER.cs" />
+    <Compile Include="Clustering\ClusterMath.cs" />
+    <Compile Include="Clustering\IClusterable.cs" />
+    <Compile Include="Wrappers\DataPoint.cs" />
+    <Compile Include="Wrappers\Rect2DDataPoint.cs" />
+    <Compile Include="Wrappers\Point2DDataPoint.cs" />
     <Compile Include="KD-Tree\IKDTree.cs" />
     <Compile Include="KD-Tree\Math\DoubleMath.cs" />
     <Compile Include="KD-Tree\Math\FloatMath.cs" />
@@ -85,8 +108,9 @@
     <Compile Include="Q-Tree\RectRegionQuadtree\RectQuadTreeNode.cs" />
     <Compile Include="R-Tree\RStarTree.cs" />
     <Compile Include="R-Tree\RTreeNode.cs" />
-    <Compile Include="trajectory\IMoveable.cs" />
-    <Compile Include="trajectory\Trajectory.cs" />
+    <Compile Include="Trajectory\IMoveable.cs" />
+    <Compile Include="Trajectory\Trajectory.cs" />
+    <Compile Include="Wrappers\Point3DDataPoint.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -98,7 +122,9 @@
       <Name>Spatial</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Qct-Tree\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

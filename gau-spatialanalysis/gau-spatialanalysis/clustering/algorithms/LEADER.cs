@@ -4,12 +4,12 @@ using System.Linq;
 
 namespace Clustering
 {
-    public class LEADER<T>  where T : IClusterable<double, T>
+    public class LEADER<T>  where T : IClusterable<Double, T>
     {
         /// <summary>
         /// Delta. Determines when an object belongs to a cluster or creates a new one if distance between data and leader is greater delta
         /// </summary>
-        public float delta { get; set; }
+        public float Delta { get; set; }
 
         /// <summary>
         /// Cluster the given data with LEADER. Pass a function to order the data as u wish
@@ -18,7 +18,7 @@ namespace Clustering
         public LEADER(float delta, T[] datapoints, Func<T[], T[]> order)
         {
             this.datapoints = datapoints;
-            this.delta = delta;
+            this.Delta = delta;
             this.order = order;
         }
 
@@ -56,7 +56,7 @@ namespace Clustering
                 var min_dist_leader_index = 0;
                 for (int index = 0; index < leaders.Count; index++)
                 {
-                    var leader_distance = leaders[index].DistanceFunction(datapoint);
+                    var leader_distance = leaders[index].GetDistance(datapoint);
                     if (index == 0) {
                         min_dist = leader_distance;
                         continue;
@@ -68,7 +68,7 @@ namespace Clustering
                     }
                 }
 
-                if (min_dist < delta)
+                if (min_dist < Delta)
                 {
                     clusters[min_dist_leader_index].assignToCluster(datapoint);
                 }

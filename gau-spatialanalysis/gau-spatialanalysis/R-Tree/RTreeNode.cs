@@ -79,7 +79,7 @@ namespace RTree
         {
             if (mbr.edgeOverlaps(deletedRectangle))
             {
-                mbr.set(entries[0].min, entries[0].max);
+                //mbr.set(entries[0].min, entries[0].max);
                 for (int i = 1; i < entryCount; i++)
                     mbr.Union(entries[i]);
 

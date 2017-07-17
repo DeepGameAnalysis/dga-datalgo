@@ -46,7 +46,7 @@ namespace Trajectories
         /// </summary>
         /// <param name="tick_id"></param>
         /// <param name="pos"></param>
-        public void AddPosition(int tick_id, Point2D e)
+        public void AddPosition(int tick_id, Point3D e)
         {
             if (tick_id < start_tick) throw new ArgumentException("New tick id cannot be smaller than the starting tick of this entity");
             if (tick_id == start_tick) throw new ArgumentException("There cannot be two positions at the same time registered for this trajectory ");
@@ -58,11 +58,11 @@ namespace Trajectories
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        public Point2D GetPositionAt(int index)
+        public Point3D GetPositionAt(int index)
         {
             try
             {
-                return (Point2D)trajectorypairs[index];
+                return (Point3D)trajectorypairs[index];
             }
             catch (Exception e)
             {

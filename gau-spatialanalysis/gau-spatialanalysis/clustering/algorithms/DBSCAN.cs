@@ -11,7 +11,7 @@ namespace Clustering
     /// <summary>
     /// Main Codeparts from http://codereview.stackexchange.com/questions/108965/implementing-a-fast-dbscan-in-c
     /// </summary>
-    public class DBSCAN<T> where T : IClusterable<double, T>
+    public class DBSCAN<T,H> where T : DataPoint<H>, IClusterable<Double, T>, new()
     {
         private T[] datapoints;
         private double epsilon;
@@ -27,23 +27,23 @@ namespace Clustering
 
         public HashSet<T[]> CreateClusters(bool removeoutliers)
         {
-            var allPointsDBScan = datapoints.Select(x => new DataPoint<T>(x)).ToArray();
+            var allPointsDBSCAN = datapoints;
 
-            var kdtree = new KDTree<double, DataPoint<T>>(2, new DoubleMath());
-            for (var i = 0; i < allPointsDBScan.Length; ++i)
+            var kdtree = new KDTree<Double, T>(2, new DoubleMath());
+            for (var i = 0; i < allPointsDBSCAN.Length; ++i)
             {
-                kdtree.Add(allPointsDBScan[i].clusterPoint.GetDataAsArray(), allPointsDBScan[i]);
+                kdtree.Add(allPointsDBSCAN[i].GetPointDataAsArray(), allPointsDBSCAN[i]);
             }
 
             var expandcounter = 0;
-            for (int i = 0; i < allPointsDBScan.Length; i++)
+            for (int i = 0; i < allPointsDBSCAN.Length; i++)
             {
-                var p = allPointsDBScan[i];
+                var p = allPointsDBSCAN[i];
                 if (p.isVisited)
                     continue;
                 p.isVisited = true;
 
-                DataPoint<T>[] neighborPts = RegionQuery(kdtree, p, epsilon);
+                T[] neighborPts = RegionQuery(kdtree, p, epsilon);
                 if (neighborPts.Length < minPts)
                     p.clusterID = (int)ClusterIDs.Noise;
                 else
@@ -54,24 +54,24 @@ namespace Clustering
             }
             if(removeoutliers)
                 return new HashSet<T[]>(
-                    allPointsDBScan
+                    allPointsDBSCAN
                         .Where(x => x.clusterID > 0)
                         .GroupBy(x => x.clusterID)
-                        .Select(x => x.Select(y => y.clusterPoint).ToArray())
+                        .Select(x => x.Select(y => y).ToArray())
                     );
             else
                 return new HashSet<T[]>(
-                allPointsDBScan
+                allPointsDBSCAN
                     .GroupBy(x => x.clusterID) //All ClusterIDs
-                    .Select(x => x.Select(y => y.clusterPoint).ToArray())
+                    .Select(x => x.Select(y => y).ToArray())
                 );
         }
 
-        private static void ExpandCluster(KDTree<double, DataPoint<T>> tree, DataPoint<T> p, DataPoint<T>[] neighborPts, int clusterid, double epsilon, int minPts)
+        private static void ExpandCluster(KDTree<double, T> tree, T p, T[] neighborPts, int clusterid, double epsilon, int minPts)
         {
             p.clusterID = clusterid;
 
-            var queue = new Queue<DataPoint<T>>(neighborPts);
+            var queue = new Queue<T>(neighborPts);
             while (queue.Count > 0)
             {
                 var point = queue.Dequeue();
@@ -97,10 +97,10 @@ namespace Clustering
             }
         }
 
-        private static DataPoint<T>[] RegionQuery(KDTree<double, DataPoint<T>> tree, DataPoint<T> p, double epsilon)
+        private static T[] RegionQuery(KDTree<double, T> tree, T p, double epsilon)
         {
-            var neighbors = new List<DataPoint<T>>();
-            var e = tree.RangeQuery(p.clusterPoint.GetDataAsArray(), epsilon, 10);
+            var neighbors = new List<T>();
+            var e = tree.RangeQuery(p.GetPointDataAsArray(), epsilon, 10);
             foreach(var entry in e)
                 neighbors.Add(entry.Value);
             
