@@ -117,9 +117,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\mathnet-spatial\src\Spatial\Spatial.csproj">
+    <ProjectReference Include="..\..\..\mathnet-spatial\src\Spatial\SpatialMath.csproj">
       <Project>{1f3364c6-9da3-4006-b83f-6d1335099895}</Project>
-      <Name>Spatial</Name>
+      <Name>SpatialMath</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
