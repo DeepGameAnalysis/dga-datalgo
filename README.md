@@ -1,4 +1,4 @@
-# GameAnalysisUniverse - Spatial Analysis
+# DeepGameAnalysis - Spatial Analysis
 
 This package contains every construct and algorithm used for spatial (and spatial-temporal) two-dimensional analysis of a game.
 
