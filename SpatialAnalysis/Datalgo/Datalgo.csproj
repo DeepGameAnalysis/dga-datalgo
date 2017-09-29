@@ -73,6 +73,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Trees\Binary-Trees\AVLTree.cs" />
+    <Compile Include="Trees\Binary-Trees\BinarySearchTree.cs" />
+    <Compile Include="Trees\Binary-Trees\BPlusTree.cs" />
+    <Compile Include="Trees\Binary-Trees\BTree.cs" />
+    <Compile Include="Trees\Binary-Trees\SearchAlgorithms.cs" />
+    <Compile Include="Trees\Binary-Trees\SplayTree.cs" />
     <Compile Include="Clustering\Algorithms\KMedian.cs" />
     <Compile Include="Clustering\Algorithms\OPTICS.cs" />
     <Compile Include="Clustering\Cluster.cs" />
@@ -81,33 +87,46 @@
     <Compile Include="Clustering\Algorithms\LEADER.cs" />
     <Compile Include="Clustering\ClusterMath.cs" />
     <Compile Include="Clustering\IClusterable.cs" />
+    <Compile Include="Graphs\AStarAlgorithm.cs" />
+    <Compile Include="Graphs\DijkstraAlgorithm.cs" />
+    <Compile Include="Graphs\DirectedAcyclicGraph.cs" />
+    <Compile Include="Graphs\DirectedGraph.cs" />
+    <Compile Include="Graphs\FloydAlgorithm.cs" />
+    <Compile Include="Graphs\Graph.cs" />
+    <Compile Include="Graphs\UndirectedGraph.cs" />
+    <Compile Include="Sorting\CountingSorts.cs" />
+    <Compile Include="Sorting\HeapSort.cs" />
+    <Compile Include="Sorting\MergeSort.cs" />
+    <Compile Include="Sorting\QuickSort.cs" />
+    <Compile Include="Sorting\SimpleSorts.cs" />
+    <Compile Include="Sorting\ISorting.cs" />
     <Compile Include="Wrappers\DataPoint.cs" />
     <Compile Include="Wrappers\Rect2DDataPoint.cs" />
     <Compile Include="Wrappers\Point2DDataPoint.cs" />
-    <Compile Include="KD-Tree\IKDTree.cs" />
-    <Compile Include="KD-Tree\Math\DoubleMath.cs" />
-    <Compile Include="KD-Tree\Math\FloatMath.cs" />
-    <Compile Include="KD-Tree\Math\ITypeMath.cs" />
-    <Compile Include="KD-Tree\Math\TypeMath.cs" />
-    <Compile Include="KD-Tree\NearestNeighbourList.cs" />
-    <Compile Include="KD-Tree\Queues\IPriorityQueue.cs" />
-    <Compile Include="KD-Tree\KDTree.cs" />
-    <Compile Include="KD-Tree\KDTreeHyperRect.cs" />
-    <Compile Include="KD-Tree\KDTreeNode.cs" />
-    <Compile Include="KD-Tree\Queues\PriorityQueue.cs" />
+    <Compile Include="Trees\KD-Tree\IKDTree.cs" />
+    <Compile Include="Trees\KD-Tree\Math\DoubleMath.cs" />
+    <Compile Include="Trees\KD-Tree\Math\FloatMath.cs" />
+    <Compile Include="Trees\KD-Tree\Math\ITypeMath.cs" />
+    <Compile Include="Trees\KD-Tree\Math\TypeMath.cs" />
+    <Compile Include="Trees\KD-Tree\NearestNeighbourList.cs" />
+    <Compile Include="Trees\KD-Tree\Queues\IPriorityQueue.cs" />
+    <Compile Include="Trees\KD-Tree\KDTree.cs" />
+    <Compile Include="Trees\KD-Tree\KDTreeHyperRect.cs" />
+    <Compile Include="Trees\KD-Tree\KDTreeNode.cs" />
+    <Compile Include="Trees\KD-Tree\Queues\PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Q-Tree\PointQuadtree\IPointQuadTreeStorable.cs" />
-    <Compile Include="Q-Tree\RectRegionQuadtree\IRectQuadTreeStorable.cs" />
-    <Compile Include="Q-Tree\QuadTree.cs" />
-    <Compile Include="Q-Tree\QuadTreeNode.cs" />
-    <Compile Include="Q-Tree\QuadTreeObject.cs" />
-    <Compile Include="Q-Tree\PointQuadtree\PointQuadTree.cs" />
-    <Compile Include="Q-Tree\PointQuadtree\PointQuadTreeNode.cs" />
-    <Compile Include="Q-Tree\RectRegionQuadtree\RectQuadTree.cs" />
-    <Compile Include="Q-Tree\RectRegionQuadtree\RectQuadTreeNode.cs" />
-    <Compile Include="R-Tree\RStarTree.cs" />
-    <Compile Include="R-Tree\RTreeNode.cs" />
+    <Compile Include="Trees\Q-Tree\PointQuadtree\IPointQuadTreeStorable.cs" />
+    <Compile Include="Trees\Q-Tree\RectRegionQuadtree\IRectQuadTreeStorable.cs" />
+    <Compile Include="Trees\Q-Tree\QuadTree.cs" />
+    <Compile Include="Trees\Q-Tree\QuadTreeNode.cs" />
+    <Compile Include="Trees\Q-Tree\QuadTreeObject.cs" />
+    <Compile Include="Trees\Q-Tree\PointQuadtree\PointQuadTree.cs" />
+    <Compile Include="Trees\Q-Tree\PointQuadtree\PointQuadTreeNode.cs" />
+    <Compile Include="Trees\Q-Tree\RectRegionQuadtree\RectQuadTree.cs" />
+    <Compile Include="Trees\Q-Tree\RectRegionQuadtree\RectQuadTreeNode.cs" />
+    <Compile Include="Trees\R-Tree\RStarTree.cs" />
+    <Compile Include="Trees\R-Tree\RTreeNode.cs" />
     <Compile Include="Trajectory\IMoveable.cs" />
     <Compile Include="Trajectory\Trajectory.cs" />
     <Compile Include="Wrappers\Point3DDataPoint.cs" />
@@ -117,13 +136,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\mathnet-spatial\src\Spatial\SpatialMath.csproj">
+    <Folder Include="Trees\Qct-Tree\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\dga-mathnet\src\Spatial\SpatialMath.csproj">
       <Project>{1f3364c6-9da3-4006-b83f-6d1335099895}</Project>
       <Name>SpatialMath</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Qct-Tree\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

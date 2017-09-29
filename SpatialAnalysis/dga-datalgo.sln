@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpatialAnalysis", "SpatialAnalysis\SpatialAnalysis.csproj", "{6B5B8F00-F0BA-4AC2-AF69-6C851628EF59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datalgo", "Datalgo\Datalgo.csproj", "{6B5B8F00-F0BA-4AC2-AF69-6C851628EF59}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{7D0568CA-D082-4EB7-B683-6248CFAE1550}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpatialMath", "..\..\mathnet-spatial\src\Spatial\SpatialMath.csproj", "{1F3364C6-9DA3-4006-B83F-6D1335099895}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpatialMath", "..\..\dga-mathnet\src\Spatial\SpatialMath.csproj", "{1F3364C6-9DA3-4006-B83F-6D1335099895}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +30,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {337B9DEA-A4C5-448A-80BC-5917F8726861}
 	EndGlobalSection
 EndGlobal
