@@ -30,7 +30,9 @@ namespace BinaryTrees
             }
         }
 
-
+        /// <summary>
+        /// Inner class for entries in nodes
+        /// </summary>
         public class BTreeEntry 
         {
             public K Key;

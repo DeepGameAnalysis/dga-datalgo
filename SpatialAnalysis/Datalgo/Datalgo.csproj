@@ -73,6 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphs\Algorithms\PrimAlgorithm.cs" />
+    <Compile Include="Graphs\Algorithms\TopologicalSort.cs" />
     <Compile Include="Trees\Binary-Trees\AVLTree.cs" />
     <Compile Include="Trees\Binary-Trees\BinarySearchTree.cs" />
     <Compile Include="Trees\Binary-Trees\BPlusTree.cs" />
@@ -87,12 +89,10 @@
     <Compile Include="Clustering\Algorithms\LEADER.cs" />
     <Compile Include="Clustering\ClusterMath.cs" />
     <Compile Include="Clustering\IClusterable.cs" />
-    <Compile Include="Graphs\AStarAlgorithm.cs" />
-    <Compile Include="Graphs\DijkstraAlgorithm.cs" />
-    <Compile Include="Graphs\DirectedAcyclicGraph.cs" />
+    <Compile Include="Graphs\Algorithms\AStarAlgorithm.cs" />
+    <Compile Include="Graphs\Algorithms\DijkstraAlgorithm.cs" />
     <Compile Include="Graphs\DirectedGraph.cs" />
-    <Compile Include="Graphs\FloydAlgorithm.cs" />
-    <Compile Include="Graphs\Graph.cs" />
+    <Compile Include="Graphs\Algorithms\FloydAlgorithm.cs" />
     <Compile Include="Graphs\UndirectedGraph.cs" />
     <Compile Include="Sorting\CountingSorts.cs" />
     <Compile Include="Sorting\HeapSort.cs" />
