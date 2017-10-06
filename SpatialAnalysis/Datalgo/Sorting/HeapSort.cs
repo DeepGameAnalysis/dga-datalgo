@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Sorting
 {
-    class HeapSort : ISorting
+    class HeapSort<T> : ISorting<T> where T :IComparable
     {
-        public override void Sort(int[] A)
+        public static void Sort(T[] A)
         {
             Console.WriteLine("Performing Heap-Sort");
             /*
-             * Erstelle den Heap in Array A. Für einen Heap gilt, dass
+             * Erstelle den Heap in Array A. Für einen Heap gilt, dass das größte element an erster Stelle im array liegt
              */
             Console.WriteLine("Input Array: " + string.Join(".", A));
             ToHeap(A, A.Length - 1);
@@ -32,7 +32,7 @@ namespace Sorting
                  * dann vorletzte Position usw)
                  */
                 Swap(A, 0, i);
-                sink(A, i, 0);
+                Sink(A, i, 0);
             }
         }
 
@@ -42,25 +42,24 @@ namespace Sorting
          * @param A
          * @param n
          */
-        static void ToHeap(int[] A, int n)
+        static void ToHeap(T[] A, int n)
         {
             Console.WriteLine("Build Heap");
             int mid = n / 2;
             // Gehe über alle inneren Knoten-Indizes
             // Bsp.: n=7 -> von i = {3,2,1,0}
             for (int i = mid; i >= 0; --i)
-            {
-                sink(A, n, i);
-            }
+                Sink(A, n, i);
+
             Console.WriteLine("Building Heap finished");
         }
 
         /*
-         * Sink bewirkt einen Knoten-Swap innerhalb einer Heap-Baumstruktur wobei der
-         * Knoten an Stelle n mit dem Knoten an Stelle i vertauscht wird, um die
-         * geforderte Heap-Eigenschaft (wieder-)herzustellen.
+         * Sink bewirkt einen Knoten-Swap innerhalb einer Heap-Baumstruktur wobei Stelle i vertauscht wird, um die
+         * geforderte Heap-Eigenschaft (wieder-)herzustellen. N ist hierbei die anzahl der elemente im heap
+         * Der Knoten wird solange in die richtige Richtung im Baum abgesenkt bis die Heapeigenschaft gilt
          */
-        static void sink(int[] A, int n, int i)
+        static void Sink(T[] A, int n, int i)
         {
             Console.WriteLine("Perform sink: (" + n + "," + i + ") on " + A.ToString());
             int mid = n / 2; // Grenze aller inneren Knoten-Indizes
@@ -69,13 +68,12 @@ namespace Sorting
             {
                 int j = 2 * i;
                 // Wenn der Nachfolger von j größer ist...
-                if ((j < n) && (A[j + 1] > A[j]))
-                {
+                if ((j < n) && Greater(A[j+1], A[j]))
                     j++; // ...erhöhe j
-                }
+
 
                 // Wenn j größer als i ist
-                if (A[j] > A[i])
+                if (Greater(A[j], A[i]))
                 {
                     // Vertausche die beiden und setze i = j
                     Swap(A, j, i);

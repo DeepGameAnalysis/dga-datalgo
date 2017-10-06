@@ -5,30 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace gau_spatial.Binary_Trees
+namespace Searching
 {
-    public class SearchAlgorithms
+    public class SearchAlgorithms<T> : ISorting<T> where T : IComparable
     {
 
-        public static void main(String[] args)
-        {
-            int searchelement = 17;
-            int[] nums = { 42, 17, 12, 15, 4, 11, 31, 14 };
-            Console.WriteLine(string.Join("",nums));
-            CountingSorts.BucketSort(nums);
-            Console.WriteLine(string.Join("", nums));
-            try
-            {
-                int result = BinarySeek(searchelement, nums);
-                Console.WriteLine("Found: " + (nums[result] == searchelement));
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Error");
-                Console.WriteLine(e.Message);
-            }
-
-        }
 
         /**
          * 
@@ -40,12 +21,12 @@ namespace gau_spatial.Binary_Trees
          * @throws Exception
          *             - falls element nicht gefunden
          */
-        public static int LinearSeek(int s, int[] A)
+        public static int LinearSeek(T s, T[] A)
         {
             //Iteriere bis gesuchtes Element gefunden.
             for (int i = 0; i < A.Length; i++)
             {
-                if (A[i] == s)
+                if (Equals(A[i], s))
                 {
                     return i;
                 }
@@ -63,7 +44,7 @@ namespace gau_spatial.Binary_Trees
          * @throws Exception
          *             - falls element nicht gefunden
          */
-        public static int BinarySeek(int s, int[] A)
+        public static int BinarySeek(T s, T[] A)
         {
 
             int lowerbound = 0;
@@ -71,13 +52,13 @@ namespace gau_spatial.Binary_Trees
             while (lowerbound <= upperbound)
             {
                 int mid = (lowerbound + upperbound) / 2;
-                if (s == A[mid])
+                if (Equals(s, A[mid]))
                 {
                     return mid; // Gesuchte element war Wurzel der binären Suche
                 }
                 else
                 {
-                    if (s < A[mid])
+                    if (Less(s, A[mid]))
                     {
                         /*
                          * Aktuelles Element is größer als s -> suche im linken Teilintervall indem
@@ -85,7 +66,7 @@ namespace gau_spatial.Binary_Trees
                          */
                         upperbound = mid - 1;
                     }
-                    else if (s > A[mid])
+                    else if (Greater(s, A[mid]))
                     {
                         /*
                          * Aktuelles Element is kleiner als s -> suche im rechten Teilintervall indem
@@ -108,37 +89,36 @@ namespace gau_spatial.Binary_Trees
          * @throws Exception
          *             - falls element nicht gefunden
          */
-        public static int BinaryInterpolatedSeek(int s, int[] A)
+        public static int BinaryInterpolatedSeek(T s, T[] A)
         {
             int lowerbound = 0;
             int upperbound = A.Length - 1;
             while (lowerbound <= upperbound)
             {
                 // Schätze den gesuchten Index durch Interpolation
-                int i = lowerbound + (s - A[lowerbound]) * (upperbound - lowerbound) / (A[upperbound] - A[lowerbound]);
-                if (s == A[i])
-                {
+                dynamic lower = A[lowerbound];
+                dynamic upper = A[upperbound];
+
+                dynamic dsl = s - lower;
+                dynamic dul = upper - lower;
+                int i = lowerbound + dsl * (upperbound - lowerbound) / dul;
+
+                if (Equals(s, A[i]))
                     return i; // Gesuchte wurde richtig Interpoliert
-                }
+            /*
+               * Aktuelles Element is größer als s -> suche im linken Teilintervall indem
+               * dessen upperbound auf links vom interpolierten Index gesetzt wird
+               */
+            /*
+                * Aktuelles Element is kleiner als s -> suche im rechten Teilintervall indem
+                * dessen lowerbound auf rechts vom interpolierten Index gesetzt wird
+                */
                 else
-                {
-                    if (s < A[i])
-                    {
-                        /*
-                         * Aktuelles Element is größer als s -> suche im linken Teilintervall indem
-                         * dessen upperbound auf links vom interpolierten Index gesetzt wird
-                         */
-                        upperbound = i - 1;
-                    }
-                    else if (s > A[i])
-                    {
-                        /*
-                         * Aktuelles Element is kleiner als s -> suche im rechten Teilintervall indem
-                         * dessen lowerbound auf rechts vom interpolierten Index gesetzt wird
-                         */
-                        lowerbound = i + 1;
-                    }
-                }
+                    if (Less(s, A[i]))
+                    upperbound = i - 1;
+                else if (Greater(s, A[i]))
+
+                    lowerbound = i + 1;
             }
             throw new Exception("The element: " + s + " could not be found in the given array.");
         }

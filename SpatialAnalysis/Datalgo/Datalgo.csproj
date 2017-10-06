@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>gau_spatial</RootNamespace>
     <AssemblyName>gau-spatial</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,10 +58,6 @@
       <HintPath>..\..\..\gau-encounterdetection\gau-encounterdetection\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MathNet.Numerics, Version=3.19.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\gau-encounterdetection\gau-encounterdetection\packages\MathNet.Numerics.3.19.0\lib\net40\MathNet.Numerics.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -73,13 +70,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backtracking\BacktrackingAlgorithm.cs" />
     <Compile Include="Graphs\Algorithms\PrimAlgorithm.cs" />
     <Compile Include="Graphs\Algorithms\TopologicalSort.cs" />
+    <Compile Include="Graphs\GraphEdge.cs" />
+    <Compile Include="Graphs\GraphNode.cs" />
+    <Compile Include="Trees\B-Tree\BTreeEntry.cs" />
+    <Compile Include="Trees\B-Tree\BTreeNode.cs" />
     <Compile Include="Trees\Binary-Trees\AVLTree.cs" />
     <Compile Include="Trees\Binary-Trees\BinarySearchTree.cs" />
-    <Compile Include="Trees\Binary-Trees\BPlusTree.cs" />
-    <Compile Include="Trees\Binary-Trees\BTree.cs" />
-    <Compile Include="Trees\Binary-Trees\SearchAlgorithms.cs" />
+    <Compile Include="Trees\B-Tree\BPlusTree.cs" />
+    <Compile Include="Trees\B-Tree\BTree.cs" />
+    <Compile Include="Searching\SearchAlgorithms.cs" />
     <Compile Include="Trees\Binary-Trees\SplayTree.cs" />
     <Compile Include="Clustering\Algorithms\KMedian.cs" />
     <Compile Include="Clustering\Algorithms\OPTICS.cs" />
@@ -142,6 +144,7 @@
     <ProjectReference Include="..\..\..\dga-mathnet\src\Spatial\SpatialMath.csproj">
       <Project>{1f3364c6-9da3-4006-b83f-6d1335099895}</Project>
       <Name>SpatialMath</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

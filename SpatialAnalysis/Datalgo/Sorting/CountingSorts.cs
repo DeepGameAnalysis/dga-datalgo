@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sorting
 {
-    class CountingSorts : ISorting
+    class CountingSorts : ISorting<int>
     {
         /*
          * Kapazität des Counting Array Histogramms
@@ -16,7 +16,7 @@ namespace Sorting
         //
         // Spezielle Sortieralgorithmen
         //
-        public override void Sort(int[] A)
+        public static void Sort(int[] A)
         {
             int n = A.Length;
 
@@ -113,7 +113,7 @@ namespace Sorting
             for (int i = 0; i < buckets.Count(); i++)
             {
                 int[] bucketArray = buckets.ElementAt(i).ToArray();
-                SimpleSorts<int>.insertionSort(bucketArray);
+                SimpleSorts<int>.InsertionSort(bucketArray);
                 for (int j = 0; j < bucketArray.Length; j++)
                 {
                     array[currentIndex++] = bucketArray[j];

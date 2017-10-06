@@ -11,6 +11,7 @@ namespace BinaryTrees
         public V Value;
         public Node<V> lnode;
         public Node<V> rnode;
+        internal int Height;
 
         public Node(V value)
         {
@@ -53,14 +54,10 @@ namespace BinaryTrees
              */
             while (bn != null && !(bn.Value.CompareTo(value) == 0))
             {
-                if (value.CompareTo(bn.Value) < 0)
-                { // kleiner als Knotenwert -> links
+                if (value.CompareTo(bn.Value) < 0) // kleiner als Knotenwert -> links
                     bn = bn.lnode;
-                }
                 else
-                {
                     bn = bn.rnode; // größer als Knotenwert -> rechts
-                }
                 return bn;
             }
             return bn;
@@ -92,13 +89,9 @@ namespace BinaryTrees
 
             // Fall 2: Nur einer leer
             if (n.lnode == null && n.rnode != null)
-            {
                 n = n.rnode; // Ersetze durch nicht leeren Teilbaum
-            }
             else if (n.lnode != null && n.rnode == null)
-            {
                 n = n.lnode; // Ersetze durch nicht leeren Teilbaum
-            }
 
             // Fall 3: Beide voll -> suche größten rechtesten Unterknoten im linken Teilbaum
             // und ersetze
@@ -106,12 +99,51 @@ namespace BinaryTrees
             {
                 Node<V> w = n.lnode;
                 while (w.rnode != null)
-                {
                     w = w.rnode;
-                }
                 n = w;
             }
 
+        }
+
+        private void DepthFirstTraversal(Node<V> root)
+        {
+            HashSet<Node<V>> Visited = new HashSet<Node<V>>();
+            Stack<Node<V>> Stack = new Stack<Node<V>>(); //Last in First out
+            Stack.Push(root);
+            while(Stack.Count != 0)
+            {
+                Node<V> n = Stack.Pop();
+                if (!Visited.Contains(n))
+                {
+                    Visited.Add(n);
+                    Stack.Push(n.lnode);
+                    Stack.Push(n.rnode);
+                }
+            }
+        }
+
+        private void BreadthFirstTraversal(Node<V> root)
+        {
+            HashSet<Node<V>> Visited = new HashSet<Node<V>>();
+            Queue<Node<V>> Queue = new Queue<Node<V>>(); //First out first in
+            Queue.Enqueue(root);
+
+            while(Queue.Count != 0)
+            {
+                Node<V> n = Queue.Dequeue();
+                Visit(n);
+                if (n.lnode != null && !Visited.Contains(n.lnode))
+                {
+                    Queue.Enqueue(n.lnode);
+                    Visited.Add(n.lnode);
+                }
+                if (n.rnode != null && !Visited.Contains(n.rnode))
+                {
+                    Queue.Enqueue(n.rnode);
+                    Visited.Add(n.rnode);
+                }
+            }
+            Visited.Clear();
         }
 
         //
@@ -123,33 +155,37 @@ namespace BinaryTrees
 
         }
 
-        void PreorderTraversal(Node<V> node)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        public void PreorderTraversal(Node<V> node)
         {
             if (node != null)
             {
                 Visit(node);
-                PreorderTraversal(node);
-                PreorderTraversal(node);
+                PreorderTraversal(node.lnode);
+                PreorderTraversal(node.rnode);
             }
         }
 
-        void PostorderTraversal(Node<V> node)
+        public void PostorderTraversal(Node<V> node)
         {
             if (node != null)
             {
-                PostorderTraversal(node);
-                PostorderTraversal(node);
+                PostorderTraversal(node.lnode);
+                PostorderTraversal(node.rnode);
                 Visit(node);
             }
         }
 
-        void InorderTraversal(Node<V> node)
+        public void InorderTraversal(Node<V> node)
         {
             if (node != null)
             {
-                InorderTraversal(node);
+                InorderTraversal(node.lnode);
                 Visit(node);
-                InorderTraversal(node);
+                InorderTraversal(node.rnode);
             }
         }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Graphs.Algorithms
 {
-    public class TopologicalSort<V> : ISorting where V : IComparable
+    public class TopologicalSort<V> : ISorting<V> where V : IComparable
     {
         public static void Perform(DirectedGraph<V> graph)
         {

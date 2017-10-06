@@ -7,46 +7,66 @@ using MathNet.Spatial.Euclidean;
 using Trajectories;
 using KDTree;
 using KDTree.Math;
+using Sorting;
+using Trees.BTree;
+using BinaryTrees;
+using Searching;
 
 namespace gau_spatial
 {
-    class Player : IMoveable
-    {
-        public Vector3D getMovementVector()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Point3D getPosition()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Vector3D getVelocity()
-        {
-            throw new NotImplementedException();
-        }
-    }
     class Program
     {
         static void Main(string[] args)
         {
-            var pl = new Player();
-            var p = new Point3D(22, 2, 9);
-            var p2 = new Point3D(2, 2, 9);
-            var p3 = new Point3D(22, 2, 19);
-            var p4 = new Point3D(22, 12, 9);
-            Trajectory<Player> t = new Trajectory<Player>(pl, 2131);
-            t.AddPosition(2133, p);
-            t.AddPosition(2132, p2);
-            t.AddPosition(2134, p3);
-            t.AddPosition(2135, p4);
-            Console.WriteLine(t);
-            Console.WriteLine(t.GetPositionAt(2136));
+            double[] nums = { 42, 17, 12, 15, 4, 11, 31, 14 };
+            int[] A = new int[4];
+            int[] R = { 4, 5 };
+            int[] L = { 8, 9 };
+            Console.WriteLine(string.Join(".", nums));
+            SimpleSorts<double>.InsertionSort(nums);
+            Console.WriteLine(string.Join(".", nums));
+
+            AVLTree<int> tree = new AVLTree<int>();
+            tree.root = tree.Insert(tree.root, 10);
+            tree.root = tree.Insert(tree.root, 20);
+            tree.root = tree.Insert(tree.root, 30);
+            tree.root = tree.Insert(tree.root, 40);
+            tree.root = tree.Insert(tree.root, 50);
+            tree.root = tree.Insert(tree.root, 25);
+
+            Console.WriteLine("Preorder traversal" + " of constructed tree is : ");
+            tree.InorderTraversal(tree.root);
+
+            int searchelement = 17;
+            int[] nums2 = { 42, 17, 12, 15, 4, 11, 31, 14 };
+            Console.WriteLine(string.Join("", nums));
+            CountingSorts.BucketSort(nums2);
+            Console.WriteLine(string.Join("", nums));
+            try
+            {
+                int result = SearchAlgorithms.BinarySeek(searchelement, nums2);
+                Console.WriteLine("Found: " + (nums[result] == searchelement));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error");
+                Console.WriteLine(e.Message);
+            }
+
+            BTree<int, int> btree = new BTree<int, int>();
+            btree.Put(19, 19);
+            btree.Put(26, 26);
+            btree.Put(24, 24);
+            btree.Put(14, 14);
+            btree.Put(11, 11);
+            btree.Put(12, 12);
+            btree.Put(14, 14);
+            btree.Put(4, 4);
+            btree.Put(42, 42);
+            Console.WriteLine(btree.ToString());
             Console.ReadLine();
 
-            KDTree<double, Point2D> kd = new KDTree<double, Point2D>(2, new DoubleMath());
-            kd.NearestNeighboursQuery(new double[] { 20, 20 }, 2);
         }
     }
 }

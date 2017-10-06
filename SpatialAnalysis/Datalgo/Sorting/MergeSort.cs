@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sorting
 {
-    class MergeSort : ISorting
+    class MergeSort<T> : ISorting<T> where T :IComparable
     {
-        public override void Sort(int[] A)
+        public static void Sort(T[] A)
         {
             int n = A.Length;
             if (n < 2) // Rekursionsbedingung für Abbruch
@@ -21,7 +21,7 @@ namespace Sorting
             Console.WriteLine(n);
             Console.WriteLine(mid);
             //Split the array A at mid into variables Left and Right
-            SplitArray(A, mid, out int[] Left, out int[] Right);
+            SplitArray(A, mid, out T[] Left, out T[] Right);
 
             /*
              * Sortiere Rekursive das linke und rechte Teilarray und merge sie anschließend.

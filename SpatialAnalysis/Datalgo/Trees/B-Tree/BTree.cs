@@ -4,64 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BinaryTrees
+namespace Trees.BTree
 {
 
     public class BTree<K, V> where K : IComparable where V : IComparable
     {
 
-        private const int M = 4;
+        public const int M = 4;
 
-        public BTreeNode Root;       
-        public int Height;     
-        public int N;          
+        public BTreeNode<K,V> Root;
 
-        /// <summary>
-        /// Inner class for nodes of this tree
-        /// </summary>
-        public class BTreeNode
+        public int Height;
+
+        public int N;
+
+        public BTree()
         {
-            public int M;                            
-            public BTreeEntry[] Children = new BTreeEntry[BTree<K, V>.M];   
-
-            public BTreeNode(int k)
-            {
-                M = k;
-            }
+            Root = new BTreeNode<K,V>(0);
         }
 
-        /// <summary>
-        /// Inner class for entries in nodes
-        /// </summary>
-        public class BTreeEntry 
-        {
-            public K Key;
-            public V Value;
-            public BTreeNode Next;    
-            public BTreeEntry(K key, V val, BTreeNode next)
-            {
-                this.Key = key;
-                this.Value = val;
-                this.Next = next;
-            }
-        }
-
-           public BTree()
-        {
-            Root = new BTreeNode(0);
-        }
-
-          public bool IsEmpty()
+        public bool IsEmpty()
         {
             return Size() == 0;
         }
-
 
         public int Size()
         {
             return N;
         }
-
 
         /// <summary>
         /// 
@@ -81,28 +51,20 @@ namespace BinaryTrees
         /// <param name="key"></param>
         /// <param name="ht"></param>
         /// <returns></returns>
-        private V Search(BTreeNode x, K key, int ht)
+        private V Search(BTreeNode<K,V> x, K key, int ht)
         {
-            BTreeEntry[] children = x.Children;
+            BTreeEntry<K,V>[] children = x.Children;
 
             // external node
             if (ht == 0)
-            {
                 for (int j = 0; j < x.M; j++)
-                {
                     if (Equal(key, children[j].Key)) return (V)children[j].Value;
-                }
-            }
 
             // internal node
             else
-            {
-                for (int j = 0; j < x.M; j++)
-                {
-                    if (j + 1 == x.M || Less(key, children[j + 1].Key))
-                        return Search(children[j].Next, key, ht - 1);
-                }
-            }
+                for (int i = 0; i < x.M; i++)
+                    if (i + 1 == x.M || Less(key, children[i + 1].Key))
+                        return Search(children[i].Next, key, ht - 1);
             return default(V);
         }
 
@@ -115,14 +77,14 @@ namespace BinaryTrees
         public void Put(K key, V val)
         {
             if (key == null) throw new Exception("argument key to put() is null");
-            BTreeNode u = Insert(Root, key, val, Height);
+            BTreeNode<K,V> u = Insert(Root, key, val, Height);
             N++;
             if (u == null) return;
 
             // need to split root
-            BTreeNode t = new BTreeNode(2);
-            t.Children[0] = new BTreeEntry(Root.Children[0].Key, default(V), Root);
-            t.Children[1] = new BTreeEntry(u.Children[0].Key, default(V), u);
+            BTreeNode<K,V> t = new BTreeNode<K,V>(2);
+            t.Children[0] = new BTreeEntry<K,V>(Root.Children[0].Key, default(V), Root);
+            t.Children[1] = new BTreeEntry<K,V>(u.Children[0].Key, default(V), u);
             Root = t;
             Height++;
         }
@@ -135,10 +97,10 @@ namespace BinaryTrees
         /// <param name="val"></param>
         /// <param name="ht"></param>
         /// <returns></returns>
-        private BTreeNode Insert(BTreeNode h, K key, V val, int ht)
+        private BTreeNode<K,V> Insert(BTreeNode<K,V> h, K key, V val, int ht)
         {
             int j;
-            BTreeEntry t = new BTreeEntry(key, val, null);
+            BTreeEntry<K,V> t = new BTreeEntry<K,V>(key, val, null);
 
             // external node
             if (ht == 0)
@@ -156,7 +118,7 @@ namespace BinaryTrees
                 {
                     if ((j + 1 == h.M) || Less(key, h.Children[j + 1].Key))
                     {
-                        BTreeNode u = Insert(h.Children[j++].Next, key, val, ht - 1);
+                        BTreeNode<K,V> u = Insert(h.Children[j++].Next, key, val, ht - 1);
                         if (u == null) return null;
                         t.Key = u.Children[0].Key;
                         t.Next = u;
@@ -173,29 +135,24 @@ namespace BinaryTrees
             else return Split(h);
         }
 
-        private BTreeNode Split(BTreeNode h)
+        private BTreeNode<K,V> Split(BTreeNode<K,V> h)
         {
-            BTreeNode t = new BTreeNode(M / 2);
+            BTreeNode<K,V> t = new BTreeNode<K,V>(M / 2);
             h.M = M / 2;
             for (int j = 0; j < M / 2; j++)
                 t.Children[j] = h.Children[M / 2 + j];
             return t;
         }
 
-        /**
-         * Returns a string representation of this B-tree (for debugging).
-         *
-         * @return a string representation of this B-tree.
-         */
         public override String ToString()
         {
             return ToString(Root, Height, "") + "\n";
         }
 
-        private String ToString(BTreeNode h, int ht, String indent)
+        private String ToString(BTreeNode<K,V> h, int ht, String indent)
         {
             StringBuilder s = new StringBuilder();
-            BTreeEntry[] children = h.Children;
+            BTreeEntry<K,V>[] children = h.Children;
 
             if (ht == 0)
             {

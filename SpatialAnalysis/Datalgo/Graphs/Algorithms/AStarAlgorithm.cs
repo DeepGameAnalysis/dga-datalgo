@@ -8,41 +8,37 @@ namespace Graphs
 {
     class AStarAlgorithm<V> where V : IComparable, IEqualityComparer<V>
     {
-        List<GraphNode<V>> Openlist = new List<GraphNode<V>>();
-        List<GraphNode<V>> Closedlist = new List<GraphNode<V>>();
-
         public void Perform(DirectedGraph<V> graph, GraphNode<V> start, GraphNode<V> target)
         {
+            List<GraphNode<V>> Openlist = new List<GraphNode<V>> { start };
+            List<GraphNode<V>> Closedlist = new List<GraphNode<V>>();
 
-            Openlist.Add(start);
+            Dictionary<int, int> GCost = new Dictionary<int, int> { [start.Index] = 0 };
+            Dictionary<int, int> FCost = new Dictionary<int, int> { [start.Index] = 0 };
+
             while (Openlist.Count != 0)
             {
-                GraphNode<V> currentNode = RemoveNode(Openlist);
+                GraphNode<V> currentNode = GetLowestF(Openlist);
                 if (currentNode.Equals(target))
                 {
                     return;
                 }
                 Closedlist.Add(currentNode);
-                ExpandNode(currentNode, graph);
+                ExpandNode(currentNode, graph, Openlist, Closedlist);
             }
         }
 
-        private GraphNode<V> RemoveNode(List<GraphNode<V>> openlist)
+        private GraphNode<V> GetLowestF(List<GraphNode<V>> openlist)
         {
             throw new NotImplementedException();
         }
 
-        private void ExpandNode(GraphNode<V> currentNode, DirectedGraph<V> graph)
+        private void ExpandNode(GraphNode<V> currentNode, DirectedGraph<V> graph, List<GraphNode<V>> Openlist, List<GraphNode<V>> Closedlist)
         {
-            foreach(var suc in graph.GetSucessors(currentNode))
+            foreach (var suc in graph.GetSucessors(currentNode))
                 if (Closedlist.Contains(suc))
                 {
-                    int f = 0;
-                    if(Openlist[suc.Index] == null || Openlist[suc.Index] > f)
-                    {
-                        suc.predecessor = currentNode;
-                        Openlist[suc.Index] = f;
-                    }
+ 
                 }
         }
     }

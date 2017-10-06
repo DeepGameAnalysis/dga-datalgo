@@ -27,21 +27,21 @@ namespace BinaryTrees
 
         public bool Contains(K key)
         {
-            return get(key) != null;
+            return Get(key) != null;
         }
 
         // return value associated with the given key
         // if no such value, return null
-        public V get(K key)
+        public V Get(K key)
         {
-            root = splay(root, key);
+            root = Splay(root, key);
             int cmp = key.CompareTo(root.Key);
             if (cmp == 0) return root.Value;
             else return default(V);
         }
 
 
-        public void put(K key, V value)
+        public void Insert(K key, V value)
         {
             // splay key to root
             if (root == null)
@@ -50,7 +50,7 @@ namespace BinaryTrees
                 return;
             }
 
-            root = splay(root, key);
+            root = Splay(root, key);
 
             int cmp = key.CompareTo(root.Key);
 
@@ -82,9 +82,7 @@ namespace BinaryTrees
 
         }
 
-        /***************************************************************************
-         *  Splay tree deletion.
-         ***************************************************************************/
+
         /* This splays the key, then does a slightly modified Hibbard deletion on
          * the root (if it is the node to be deleted; if it is not, the key was 
          * not in the tree). The modification is that rather than swapping the
@@ -97,7 +95,7 @@ namespace BinaryTrees
         {
             if (root == null) return; // empty tree
 
-            root = splay(root, key);
+            root = Splay(root, key);
 
             int cmp = key.CompareTo(root.Key);
 
@@ -111,7 +109,7 @@ namespace BinaryTrees
                 {
                     SplayTreeNode x = root.rnode;
                     root = root.lnode;
-                    splay(root, key);
+                    Splay(root, key);
                     root.rnode = x;
                 }
             }
@@ -126,7 +124,7 @@ namespace BinaryTrees
         // splay key in the tree rooted at SplayTreeNode h. If a node with that key exists,
         //   it is splayed to the root of the tree. If it does not, the last node
         //   along the search path for the key is splayed to the root.
-        private SplayTreeNode splay(SplayTreeNode h, K key)
+        private SplayTreeNode Splay(SplayTreeNode h, K key)
         {
             if (h == null) return null;
 
@@ -142,12 +140,12 @@ namespace BinaryTrees
                 int cmp2 = key.CompareTo(h.lnode.Key);
                 if (cmp2 < 0)
                 {
-                    h.lnode.lnode = splay(h.lnode.lnode, key);
+                    h.lnode.lnode = Splay(h.lnode.lnode, key);
                     h = rotateRight(h);
                 }
                 else if (cmp2 > 0)
                 {
-                    h.lnode.rnode = splay(h.lnode.rnode, key);
+                    h.lnode.rnode = Splay(h.lnode.rnode, key);
                     if (h.lnode.rnode != null)
                         h.lnode = rotateLeft(h.lnode);
                 }
@@ -167,13 +165,13 @@ namespace BinaryTrees
                 int cmp2 = key.CompareTo(h.rnode.Key);
                 if (cmp2 < 0)
                 {
-                    h.rnode.lnode = splay(h.rnode.lnode, key);
+                    h.rnode.lnode = Splay(h.rnode.lnode, key);
                     if (h.rnode.lnode != null)
                         h.rnode = rotateRight(h.rnode);
                 }
                 else if (cmp2 > 0)
                 {
-                    h.rnode.rnode = splay(h.rnode.rnode, key);
+                    h.rnode.rnode = Splay(h.rnode.rnode, key);
                     h = rotateLeft(h);
                 }
 

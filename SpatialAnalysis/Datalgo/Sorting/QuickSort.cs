@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sorting
 {
-    class QuickSort : ISorting
+    class QuickSort<T>: ISorting<T> where T : IComparable
     {
-        public override void Sort(int[] A, int start, int end)
+        public static void Sort(T[] A, int start, int end)
         {
             if (start >= end)
                 return; // Set recursion end
@@ -32,10 +32,10 @@ namespace Sorting
             Sort(A, index + 1, end);
         }
 
-        static int Partition(int[] A, int start, int end)
+        static int Partition(T[] A, int start, int end)
         {
             int pivindex = end;
-            int pivot = A[pivindex];
+            T pivot = A[pivindex];
             int pindex = start;
             // Laufe über das Teilarray von start bis end
             for (int i = start; i < end; i++)
@@ -46,7 +46,7 @@ namespace Sorting
                  * Zeiger für das nächste Element(oder um bei vollendung das Pivot-Element dort
                  * einzufügen) - PS: Flip Relation um absteigende Ordnung zu erzeugen
                  */
-                if (A[i] <= pivot)
+                if (LessEqual(A[i],pivot))
                 {
                     Swap(A, i, pindex);
                     pindex++;
